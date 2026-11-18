@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   ArrowRight,
   BookOpen,
+  Download,
   Grid2x2,
   ImagePlus,
   Layers,
@@ -23,6 +24,7 @@ import {
   SymbolQuestion,
 } from './data/symbols';
 import { stopSpeaking } from './utils/audio';
+import { buildStandaloneHtml } from './utils/exportStandaloneHtml';
 
 type AppScreen = 'HOME' | 'QUIZ' | 'MEMORY' | 'COLORING' | 'PUZZLE';
 
@@ -257,14 +259,36 @@ export default function App() {
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setIsSetupOpen(true)}
-                className="min-h-[48px] px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
-              >
-                <ImagePlus className="w-4 h-4 text-[#0047A0]" />
-                <span>실물 사진 넣기 · 단일 HTML 저장</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setIsSetupOpen(true)}
+                  className="min-h-[48px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
+                >
+                  <ImagePlus className="w-4 h-4 text-[#0047A0]" />
+                  <span>실물 사진 넣기</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const html = buildStandaloneHtml(questions);
+                    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = '우리나라_상징_짝맞추기.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                  }}
+                  className="min-h-[48px] px-4 py-2.5 rounded-xl bg-[#0047A0] hover:bg-blue-800 text-white text-sm font-bold flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>단일 HTML 파일 받기</span>
+                </button>
+              </div>
             </section>
 
             {/* Quick Symbol Preview Strip */}
