@@ -1,0 +1,6 @@
+{
+  "name": "우리나라 상징 짝 맞추기",
+  "description": "특수학교 3학년을 위한 우리나라 대표 상징 짝 맞추기 퀴즈 및 메모리 카드 학습 앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
